@@ -4,7 +4,7 @@
 	<groupId>com.hska</groupId>
 	<artifactId>GetThingsDone_Servlet</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>GetThingsDone Servlet</name>
+	<name>TodoListServlet</name>
 	<description>ToDo List App Servlet</description>
 
 	<packaging>war</packaging>
