@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import todo.connection.command.Commands;
+import todo.connection.db.DbHandler;
 import todo.connection.query.Query;
 import todo.connection.response.ErrorResponse;
 import todo.connection.response.OkResponse;
@@ -21,6 +22,7 @@ import todo.connection.response.TaskListResponse;
 import todo.data.TaskList;
 import todo.data.user.User;
 import todo.errors.MessageLogException;
+import todo.utils.Trace;
 
 @WebServlet(name = "TodoListServlet", urlPatterns = { "/TodoListServlet" })
 public class TodoListServlet extends HttpServlet {
@@ -51,7 +53,7 @@ public class TodoListServlet extends HttpServlet {
 			
 			out.print(new Gson().toJson(createResponseForQuery(out, query)));
 		} catch (MessageLogException e) {
-			System.out.println("Servlet " + this.getServletName() + " >> @" + where + "= " + e.getMessage());
+			Trace.print("Servlet " + this.getServletName() + " >> @" + where + "= " + e.getMessage());
 		}
 	}
 	
@@ -83,12 +85,14 @@ public class TodoListServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		System.out.println("Servlet " + this.getServletName() + " has started");
+		Trace.init();
+		Trace.print("Servlet " + this.getServletName() + " has started");
 	}
 
 	@Override
 	public void destroy() {
-		System.out.println("Servlet " + this.getServletName() + " has stopped");
+		Trace.print("Servlet " + this.getServletName() + " has stopped");
+		DbHandler.getSessionFactory().close();
 	}
 
 }
