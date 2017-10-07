@@ -34,6 +34,8 @@
 			<groupId>com.hska</groupId>
 			<artifactId>GetThingsDone</artifactId>
 			<version>0.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/src/main/resources/GetThingsDone-0.0.1-jar-with-dependencies.jar</systemPath>
 		</dependency>
 
 	</dependencies>
@@ -49,7 +51,7 @@
 					<warSourceDirectory>src/main/webapp</warSourceDirectory>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
