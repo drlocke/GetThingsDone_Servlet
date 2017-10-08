@@ -18,10 +18,9 @@ import todo.connection.query.Query;
 import todo.connection.response.OkResponse;
 import todo.connection.response.Response;
 import todo.data.user.User;
-import todo.errors.MessageLogException;
 import todo.utils.Trace;
 
-@WebServlet(name = "ToDoListServlet", urlPatterns = { "/ToDoListServlet" })
+@WebServlet(name = "TodoListServlet", urlPatterns = { "/todolist" })
 public class ToDoListServlet extends HttpServlet {
 
 	@Override
@@ -40,40 +39,47 @@ public class ToDoListServlet extends HttpServlet {
 			throws IOException {
 		response.setContentType("application/json;charset=UTF-8");
 
-		try (BufferedReader in = request.getReader()) {
-			Query query = new Gson().fromJson(in.toString(), Query.class);
+		StringBuffer sb = new StringBuffer();
+		String line = null;
+		try {
+			BufferedReader reader = request.getReader();
+			while ((line = reader.readLine()) != null)
+				sb.append(line);
+
+			Query query = new Gson().fromJson(sb.toString(), Query.class);
 			if (query == null)
-				throw new MessageLogException("Query is null, data=" + in.toString());
+				throw new Exception("[ERROR] Query is null, data=" + sb.toString());
 			if (query.getUser() == null)
-				throw new MessageLogException("User from query is null, data=" + in.toString());
+				throw new Exception("[ERROR] User from query is null, data=" + sb.toString());
 
 			PrintWriter out = response.getWriter();
 
 			out.print(new Gson().toJson(createResponseForQuery(out, query)));
 			out.flush();
-		} catch (MessageLogException e) {
+		} catch (Exception e) {
 			Trace.print("Servlet " + this.getServletName() + " >> @" + where + "= " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
-	private Response createResponseForQuery(PrintWriter out, Query query) throws MessageLogException {
+	private Response createResponseForQuery(PrintWriter out, Query query) throws Exception {
 		User user = query.getUser();
 		checkUserInput(out, user);
 
 		return Commands.getInstance().runCommand(query);
 	}
 
-	private void sendErrorResponse(PrintWriter out, String msg) throws MessageLogException {
+	private void sendErrorResponse(PrintWriter out, String msg) throws Exception {
 		checkPrintWriter(out);
 		out.print(new Gson().toJson(new OkResponse(msg)));
 	}
 
-	private void checkPrintWriter(PrintWriter out) throws MessageLogException {
+	private void checkPrintWriter(PrintWriter out) throws Exception {
 		if (out == null)
-			throw new MessageLogException("Response can't be created because of a NullPointer");
+			throw new Exception("[ERROR] Response can't be created because of a NullPointer");
 	}
 
-	private void checkUserInput(PrintWriter out, User user) throws MessageLogException {
+	private void checkUserInput(PrintWriter out, User user) throws Exception {
 		if (user == null)
 			sendErrorResponse(out, "User data is null!");
 		if (user.getName() == null)

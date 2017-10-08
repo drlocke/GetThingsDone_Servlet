@@ -8,14 +8,13 @@
 	<display-name>ToDo List Servlet Application</display-name>
 
 	<servlet>
-		<servlet-name>TodoListServlet</servlet-name>
+		<servlet-name>GetThingsDone</servlet-name>
 		<servlet-class>todo.servlet.ToDoListServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
 		<servlet-name>TodoListServlet</servlet-name>
-		<url-pattern>/TodoListServlet</url-pattern>
+		<url-pattern>/todolist</url-pattern>
 	</servlet-mapping>
 	
 	<welcome-file-list>
