@@ -8,15 +8,16 @@
 	<display-name>ToDo List Servlet Application</display-name>
 
 	<servlet>
-		<servlet-name>GetThingsDone_Servlet</servlet-name>
+		<servlet-name>TodoListServlet</servlet-name>
 		<servlet-class>todo.servlet.ToDoListServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>GetThingsDone_Servlet</servlet-name>
-		<url-pattern>/GetThingsDone</url-pattern>
+		<servlet-name>TodoListServlet</servlet-name>
+		<url-pattern>/TodoListServlet</url-pattern>
 	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

@@ -15,22 +15,19 @@ import com.google.gson.Gson;
 import todo.connection.command.Commands;
 import todo.connection.db.DbHandler;
 import todo.connection.query.Query;
-import todo.connection.response.ErrorResponse;
 import todo.connection.response.OkResponse;
 import todo.connection.response.Response;
-import todo.connection.response.TaskListResponse;
-import todo.data.TaskList;
 import todo.data.user.User;
 import todo.errors.MessageLogException;
 import todo.utils.Trace;
 
 @WebServlet(name = "TodoListServlet", urlPatterns = { "/TodoListServlet" })
-public class TodoListServlet extends HttpServlet {
-	
+public class ToDoListServlet extends HttpServlet {
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		processInput(request, response, "doGet");
+		// processInput(request, response, "doGet");
 	}
 
 	@Override
@@ -38,8 +35,9 @@ public class TodoListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		processInput(request, response, "doPut");
 	}
-	
-	private void processInput(HttpServletRequest request, HttpServletResponse response, String where) throws IOException {
+
+	private void processInput(HttpServletRequest request, HttpServletResponse response, String where)
+			throws IOException {
 		response.setContentType("application/json;charset=UTF-8");
 
 		try (BufferedReader in = request.getReader()) {
@@ -48,20 +46,20 @@ public class TodoListServlet extends HttpServlet {
 				throw new MessageLogException("Query is null, data=" + in.toString());
 			if (query.getUser() == null)
 				throw new MessageLogException("User from query is null, data=" + in.toString());
-			
+
 			PrintWriter out = response.getWriter();
-			
+
 			out.print(new Gson().toJson(createResponseForQuery(out, query)));
 			out.flush();
 		} catch (MessageLogException e) {
 			Trace.print("Servlet " + this.getServletName() + " >> @" + where + "= " + e.getMessage());
 		}
 	}
-	
+
 	private Response createResponseForQuery(PrintWriter out, Query query) throws MessageLogException {
 		User user = query.getUser();
 		checkUserInput(out, user);
-		
+
 		return Commands.getInstance().runCommand(query);
 	}
 
