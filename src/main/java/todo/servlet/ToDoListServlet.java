@@ -21,7 +21,7 @@ import todo.data.user.User;
 import todo.errors.MessageLogException;
 import todo.utils.Trace;
 
-@WebServlet(name = "TodoListServlet", urlPatterns = { "/TodoListServlet" })
+@WebServlet(name = "ToDoListServlet", urlPatterns = { "/ToDoListServlet" })
 public class ToDoListServlet extends HttpServlet {
 
 	@Override
