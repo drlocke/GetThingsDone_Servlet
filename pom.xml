@@ -14,17 +14,6 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
-	
-	<repositories>
-		<repository>
-			<id>dropbox.repo</id>
-			<url>https://www.dropbox.com/sh/4baakts9kmn61yb/AACFPJRx3rJf5nk6IxnYj5Fda?dl=0</url>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<dependencies>
 

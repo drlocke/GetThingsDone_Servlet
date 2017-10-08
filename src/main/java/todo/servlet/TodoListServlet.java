@@ -26,11 +26,11 @@ import todo.utils.Trace;
 
 @WebServlet(name = "TodoListServlet", urlPatterns = { "/TodoListServlet" })
 public class TodoListServlet extends HttpServlet {
-
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processInput(request, response, "doGet");
+//		processInput(request, response, "doGet");
 	}
 
 	@Override
@@ -52,6 +52,7 @@ public class TodoListServlet extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			
 			out.print(new Gson().toJson(createResponseForQuery(out, query)));
+			out.flush();
 		} catch (MessageLogException e) {
 			Trace.print("Servlet " + this.getServletName() + " >> @" + where + "= " + e.getMessage());
 		}
