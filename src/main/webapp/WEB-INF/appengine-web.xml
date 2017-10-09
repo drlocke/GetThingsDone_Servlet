@@ -4,10 +4,11 @@
 	<threadsafe>true</threadsafe>
 	<sessions-enabled>false</sessions-enabled>
 	<runtime>java8</runtime>
-	
+
 	<!-- Configure java.util.logging -->
-    <system-properties>
-        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
-    </system-properties>
-	
+	<system-properties>
+		<property name="java.util.logging.config.file" value="WEB-INF/logging.properties" />
+		<property name="cloudsql.url" value="${cloudsql.url}" />
+	</system-properties>
+
 </appengine-web-app>
