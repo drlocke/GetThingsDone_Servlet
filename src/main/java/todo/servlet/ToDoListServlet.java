@@ -14,7 +14,7 @@ import todo.connection.command.Commands;
 import todo.connection.db.DbHandler;
 import todo.connection.gson.GsonUtils;
 import todo.connection.query.Query;
-import todo.connection.response.OkResponse;
+import todo.connection.response.ErrorResponse;
 import todo.connection.response.Response;
 import todo.data.user.User;
 import todo.errors.MessageLogException;
@@ -64,14 +64,12 @@ public class ToDoListServlet extends HttpServlet {
 
 	private Response createResponseForQuery(PrintWriter out, Query query) throws MessageLogException {
 		User user = query.getUser();
-		checkUserInput(out, user);
 
-		return Commands.getInstance().runCommand(query);
-	}
+		Response response = checkUserInput(out, user);
+		if (response == null)
+			return Commands.getInstance().runCommand(query);
 
-	private void sendErrorResponse(PrintWriter out, String msg) throws MessageLogException {
-		checkPrintWriter(out);
-		out.print(GsonUtils.getInstance().toJson(new OkResponse(msg)));
+		return response;
 	}
 
 	private void checkPrintWriter(PrintWriter out) throws MessageLogException {
@@ -79,13 +77,14 @@ public class ToDoListServlet extends HttpServlet {
 			throw new MessageLogException("Response can't be created because of a NullPointer");
 	}
 
-	private void checkUserInput(PrintWriter out, User user) throws MessageLogException {
+	private Response checkUserInput(PrintWriter out, User user) throws MessageLogException {
 		if (user == null)
-			sendErrorResponse(out, "User data is null!");
+			return new ErrorResponse("User data is null!");
 		if (user.getName() == null)
-			sendErrorResponse(out, "Username is null!");
+			return new ErrorResponse("Username is null!");
 		if (user.getName() == null)
-			sendErrorResponse(out, "Password is null!");
+			return new ErrorResponse("Password is null!");
+		return null;
 	}
 
 	@Override
